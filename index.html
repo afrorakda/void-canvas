@@ -38,7 +38,7 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            /* heightを固定せず、スクロールの余裕を持たせる */
+            /* 画面下部が隠れないよう、最小高さを確保しつつ余白を持たせる */
             min-height: 100vh;
         }
 
@@ -56,7 +56,6 @@
         
         textarea {
             width: 100%;
-            /* 100vhから他の要素分を引いた動的な高さを確保 */
             min-height: 300px;
             flex-grow: 1;
             padding: 20px;
@@ -102,7 +101,7 @@
         .footer-btns { 
             display: flex; 
             gap: 10px; 
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             flex-shrink: 0;
         }
         .kofi-btn {
@@ -125,10 +124,10 @@
             color: #aaa; 
             line-height: 1.6; 
             font-weight: 500;
-            padding-bottom: 30px; /* リンクをタップしやすくするために余白を増加 */
+            padding-bottom: 40px; /* iPhoneのメニューバーに被らないよう十分に確保 */
             flex-shrink: 0;
         }
-        footer a { color: inherit; text-decoration: underline; padding: 5px; }
+        footer a { color: inherit; text-decoration: underline; display: inline-block; padding: 5px; }
 
         #modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -199,6 +198,7 @@
         }, 700);
     }
 
+    // 誤操作による離脱防止（一応の保険）
     window.onbeforeunload = function() {
         if (canvas.value.trim()) {
             return "Your thoughts will vanish forever. Is that okay?";
