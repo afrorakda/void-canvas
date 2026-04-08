@@ -28,7 +28,6 @@
             justify-content: center;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
-            overflow: hidden; /* 画面にフィットさせる */
         }
 
         .container {
@@ -39,7 +38,8 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            /* heightを固定せず、スクロールの余裕を持たせる */
+            min-height: 100vh;
         }
 
         header { margin-bottom: 15px; flex-shrink: 0; }
@@ -50,12 +50,15 @@
             position: relative; 
             flex-grow: 1;
             margin-bottom: 15px;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         
         textarea {
             width: 100%;
-            height: 100%;
+            /* 100vhから他の要素分を引いた動的な高さを確保 */
+            min-height: 300px;
+            flex-grow: 1;
             padding: 20px;
             border: 2px solid var(--accent);
             border-radius: var(--radius);
@@ -74,7 +77,6 @@
         }
         textarea::placeholder { color: var(--void-gray); -webkit-text-fill-color: var(--void-gray); font-style: italic; }
 
-        /* 霧のように消えるアニメーション */
         .fog-out {
             opacity: 0 !important;
             transform: translateY(-20px) scale(1.02);
@@ -100,7 +102,7 @@
         .footer-btns { 
             display: flex; 
             gap: 10px; 
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             flex-shrink: 0;
         }
         .kofi-btn {
@@ -123,10 +125,10 @@
             color: #aaa; 
             line-height: 1.6; 
             font-weight: 500;
-            padding-bottom: 10px;
+            padding-bottom: 30px; /* リンクをタップしやすくするために余白を増加 */
             flex-shrink: 0;
         }
-        footer a { color: inherit; text-decoration: underline; }
+        footer a { color: inherit; text-decoration: underline; padding: 5px; }
 
         #modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -183,7 +185,6 @@
         if (isReleasing || !canvas.value.trim()) return;
         isReleasing = true;
 
-        // 霧のように消えるアニメーション開始
         canvas.classList.add('fog-out');
         voidBtn.innerText = "VANISHING...";
         voidBtn.style.opacity = "0.5";
@@ -198,7 +199,6 @@
         }, 700);
     }
 
-    // 誤操作による離脱防止（一応確認を出すが、基本は保存しない）
     window.onbeforeunload = function() {
         if (canvas.value.trim()) {
             return "Your thoughts will vanish forever. Is that okay?";
